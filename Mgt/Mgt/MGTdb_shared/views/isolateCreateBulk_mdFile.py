@@ -191,9 +191,9 @@ def isEmpty(theVal):
 
 def checkAllReqAreNotEmpty(form_md, arrLine, dict_colNums, org):
 	Location, Isolate, Isolation, Project, User, continent_choices = getModels(org)
-	if isEmpty(arrLine[dict_colNums['continent']]) or isEmpty(arrLine[dict_colNums['country']]) or isEmpty(arrLine[dict_colNums['year']]) or isEmpty(arrLine[dict_colNums['identifier']]) or isEmpty(arrLine[dict_colNums['tmpFn_alleles']]) or isEmpty(arrLine[dict_colNums['privacy_status']]):
+	if isEmpty(arrLine[dict_colNums['identifier']]) or isEmpty(arrLine[dict_colNums['tmpFn_alleles']]) or isEmpty(arrLine[dict_colNums['privacy_status']]):
 
-		form_md.add_error(None, "One or more of the required data values is missing in the provided CSV file. You must provide values for the Isolate identifier, Allele filename, Privacy status, Continent, Country and Year.")
+		form_md.add_error(None, "One or more of the required data values is missing in the provided CSV file. You must provide values for the Isolate identifier, Allele filename, and Privacy status.")
 
 
 def checkProvidedTypes(form_md, arrLine, dict_colNums, org):
@@ -210,19 +210,19 @@ def checkProvidedTypes(form_md, arrLine, dict_colNums, org):
 		form_md.add_error(None, "Privacy status: only PU (to make isolate public) or PV (to make isolate private) are expected for this column.")
 		return
 
-	if not re.match("^[0-9]{4}$", arrLine[dict_colNums['year']]):
-		form_md.add_error(None, "Year: must be a number with four digits " + arrLine[dict_colNums['year']] + ".")
-		return
+	#if not re.match("^[0-9]{4}$", arrLine[dict_colNums['year']]):
+	#	form_md.add_error(None, "Year: must be a number with four digits " + arrLine[dict_colNums['year']] + ".")
+	#	return
 
-	if not (arrLine[dict_colNums['continent']] in dict(continent_choices)):
+	#if not (arrLine[dict_colNums['continent']] in dict(continent_choices)):
 		# print (arrLine[dict_colNums['continent']].lower() + " is the provided continent")
-		form_md.add_error(None, "Continent: A provided continent \"" +  arrLine[dict_colNums['continent']] + "\" is not allowed. Please see the instructions for allowable values.")
-		return
+	#	form_md.add_error(None, "Continent: A provided continent \"" +  arrLine[dict_colNums['continent']] + "\" is not allowed. Please see the instructions for allowable values.")
+	#	return
 
-	if (not (arrLine[dict_colNums['country']] in dict(countries).values())):
+	#if (not (arrLine[dict_colNums['country']] in dict(countries).values())):
 
-		form_md.add_error(None, "Country: A provided country value \"" + arrLine[dict_colNums['country']] + "\" is not allowed. Please see the instructions for allowable values.")
-		return
+	#	form_md.add_error(None, "Country: A provided country value \"" + arrLine[dict_colNums['country']] + "\" is not allowed. Please see the instructions for allowable values.")
+	#	return
 
 
 import json

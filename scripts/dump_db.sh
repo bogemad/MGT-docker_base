@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+set -a; source $(dirname $0)/../.env; set +a
+
 # Where we’ll write the dump on the host
 OUTFILE=${1:-xcitri-$(date +%Y%m%dT%H%M%S).sql}
 
