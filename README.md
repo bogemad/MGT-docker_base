@@ -1,7 +1,7 @@
 # MGT-Xcitri
 
 Forked from [LanLab/MGT-local](https://github.com/LanLab/MGT-local)  
-A Docker-based multilevel genome typing (MGT) database & web interface for _Xanthomonas citri_.
+A Docker-based multilevel genome typing (MGT) database & web interface for any MLST-able organism.
 
 ---
 
