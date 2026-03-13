@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 #############################################
-# MGT-Xcitri install / re-install script
+# MGT scheme install / re-install script
 # - Checks .env and required vars customised
 # - Detects prior install and (optionally) nukes it
 # - Builds & starts services fresh
@@ -11,7 +11,6 @@ set -Eeuo pipefail
 #   ./scripts/install.sh [--force] [--nuke]
 #############################################
 
-PROJECT_NAME_DEFAULT="mgt-xcitri"
 COMPOSE_FILE_DEFAULT="compose.yaml"
 # Common ports for this stack (adjust if your compose uses different)
 PORTS_TO_CHECK=("5432" "8000")
@@ -55,7 +54,7 @@ require_cmd() {
 }
 
 project_root_check() {
-  [[ -f "$COMPOSE_FILE_DEFAULT" ]] || die "No $COMPOSE_FILE_DEFAULT found here. Run this from the MGT-Xcitri repo root."
+  [[ -f "$COMPOSE_FILE_DEFAULT" ]] || die "No $COMPOSE_FILE_DEFAULT found here. Run this from the MGT repo root."
   ok "Compose file found: $COMPOSE_FILE_DEFAULT"
 }
 
@@ -249,12 +248,12 @@ main() {
   fi
 
   project_root_check
+  load_env_if_present
 
   local pname
-  pname="mgt-xcitri"
+  pname="mgt-$DBNAME"
   info "Using compose project name: $pname"
 
-  load_env_if_present
   validate_env_vars
   
   if report_existing_stack "$pname"; then
@@ -263,7 +262,7 @@ main() {
 
     IMPORTANTLY: This will also delete any existing MGT database. If you have uploaded and called alleles on existing isolates and wish to keep this data, please dump your database to file prior to running this script.
 
-    A clean install should only be done if there have been problems with a previous install or wish to start again. Clean installs should be done with a freshly cloned git repository (previous MGT-Xcitri dirctory removed and git clone https://github.com/bogemad/MGT-Xcitri.git)
+    A clean install should only be done if there have been problems with a previous install or wish to start again. Clean installs should be done with a freshly cloned git repository (previous MGT dirctory removed and git cloned from your repo or the MGT-docker_base repo)
     "
     if confirm "Proceed with clean install (IRREVERSIBLE)? Press N to exit."; then
       nuke_stack "$pname"

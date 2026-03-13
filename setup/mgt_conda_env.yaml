@@ -16,6 +16,7 @@ dependencies:
   - python[version='>=3.10']
   - requests[version='>=2.27']
   - sistr_cmd
+  - python-dotenv
   - pip:
     - django-countries
     - django-registration==3.4

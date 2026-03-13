@@ -26,6 +26,6 @@ docker compose exec -T web bash -lc '
   echo "Running cron_pipeline.py…"
   python cron_pipeline.py \
     -s template \
-    -d Xcitri \
+    -d $DBNAME \
     --allele_to_db --local
 '

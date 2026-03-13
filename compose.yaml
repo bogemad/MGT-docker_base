@@ -9,7 +9,7 @@ services:
       - PGPORT=${POSTGRES_PORT}
       - PGUSER=${POSTGRES_USER}
       - PGPASSWORD=${POSTGRES_PASSWORD}
-      - PGDATABASE=${POSTGRES_DB}
+      - PGDATABASE=$DBNAME
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -19,7 +19,7 @@ services:
       retries: 5
 
   web:
-    image: ${IMAGE_NAME:-bogemad/mgt-xcitri-web}:latest
+    image: ${IMAGE_NAME:-$DOCKER_USER/mgt-$DBNAME-web}:latest
     #build:
     #  context: .
     #  dockerfile: Dockerfile
@@ -42,14 +42,14 @@ services:
         if [ ! -f \"${DB_INIT_FLAG}\" ]; then
           echo '⚙️  First‐run: initializing database...';
           cd setup;
-          bash setup_new_database.ssh Xcitri_inputs.setupPath;
+          bash setup_new_database.ssh Scheme_inputs.setupPath;
         else
           echo '✅ Skipping DB init (flag exists at ${DB_INIT_FLAG})';
         fi;
         conda activate mgtenv
         # Finally start the server
         cd /app/Mgt/Mgt
-        python manage.py runserver 0.0.0.0:8000 --settings Mgt.settings_template
+        python manage.py runserver 0.0.0.0:8000 --settings Mgt.settings
       "
   
   kraken-init:
@@ -93,7 +93,7 @@ services:
         ls -lah /kraken-db;
   
   alleles:
-    image: ${IMAGE_NAME:-bogemad/mgt-xcitri-web}:latest
+    image: ${IMAGE_NAME:-$DOCKER_USER/mgt-$DBNAME-web}:latest
     #build:
     #  context: .
     #  dockerfile: Dockerfile

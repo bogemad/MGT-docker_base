@@ -22,6 +22,12 @@ import datetime
 from copy import deepcopy
 import time
 import dis
+from dotenv import load_dotenv
+
+REPO_BASE = Path(__file__).resolve().parents[4]
+DOTENV = REPO_BASE / ".env"
+load_dotenv(DOTENV)
+
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -1927,7 +1933,7 @@ if __name__ == "__main__":
                         required=True,
                         choices=["reads","genome"])
     parser.add_argument("--refalleles", help="File path to MGT reference allele file.",
-                        default="./species_specific_alleles/Xcitri_intact_alleles.fasta")
+                        default=f"./species_specific_alleles/{os.getenv("APPNAME")}_intact_alleles.fasta")
     parser.add_argument("--strainid", help="id for strain to use in output")
     parser.add_argument("--tmpdir",help="temporary folder")
     parser.add_argument("-o","--outpath", help="Path to ouput file name required=True",required=True)

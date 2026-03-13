@@ -4,6 +4,12 @@ import sys
 import shutil
 import subprocess
 from pathlib import Path
+from dotenv import load_dotenv
+
+DOTENV = Path(".env")
+load_dotenv(DOTENV)
+
+
 
 # Flags that take a single path value right after them
 _SINGLE_PATH_FLAGS = {
@@ -13,7 +19,7 @@ _SINGLE_PATH_FLAGS = {
 _COMMA_PATH_FLAGS = {"-i", "--input"}
 
 # Repo-relative defaults to inject if user didn't supply these flags
-_REPO_DEFAULT_REFA = Path("species_specific_alleles/Xcitri_intact_alleles.fasta")
+_REPO_DEFAULT_REFA = Path(f"species_specific_alleles/{os.getenv("APPNAME")}_intact_alleles.fasta")
 _REPO_DEFAULT_PVK  = Path("mlst/mlst_pathovar_key.txt")
 
 def _abspath_if_exists(p: str) -> str:

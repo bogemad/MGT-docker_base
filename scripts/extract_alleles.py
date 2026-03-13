@@ -16,7 +16,7 @@ Example:
   ./scripts/extract_alleles.py \
       --source_dir /path/to/my/files \
       --out_dir /path/to/upload_later \
-      --species_key Xcitri
+      --species_key Appname
 """
 
 import argparse
@@ -30,13 +30,16 @@ import ast
 import json
 from pathlib import Path
 import importlib.util
-
+from dotenv import load_dotenv
 
 REPO_BASE = Path(__file__).resolve().parents[1]
+DOTENV = REPO_BASE / ".env"
+load_dotenv(DOTENV)
+
 DETAILS_FILE = REPO_BASE / "data" / "allele_file_details"
 WRAPPER = REPO_BASE / "scripts" / "reads_to_alleles.py"
-SETTINGS = REPO_BASE / "Mgt" / "Mgt" / "Mgt" / "settings_template.py"
-REF_ALLELES = REPO_BASE / "species_specific_alleles" / "Xcitri_intact_alleles.fasta"
+SETTINGS = REPO_BASE / "Mgt" / "Mgt" / "Mgt" / "settings.py"
+REF_ALLELES = REPO_BASE / "species_specific_alleles" / f"{os.getenv("APPNAME")}_intact_alleles.fasta"
 ALLELES_DIR = REPO_BASE / "data" / "alleles"
 PATHOVAR_KEY = REPO_BASE / "mlst" / "mlst_pathovar_key.txt"
 SPECIES_JSON = REPO_BASE / "Mgt" / "Mgt" / "MGT_processing" / "Reads2MGTAlleles" / "rtoa_defaults.json"
@@ -221,7 +224,7 @@ def main():
     args = ap.parse_args()
 
     ensure_paths()
-    cutoffs = load_species_cutoffs_json(SPECIES_JSON, "Xcitri")
+    cutoffs = load_species_cutoffs_json(SPECIES_JSON, os.getenv("APPNAME"))
 
     failures = 0
     for strainid, file_list in read_details(args.details_file):

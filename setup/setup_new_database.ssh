@@ -23,10 +23,10 @@ export PGHOST="${POSTGRES_HOST:-db}"
 export PGPORT="${POSTGRES_PORT:-5432}"
 export PGUSER="${POSTGRES_USER:?Need POSTGRES_USER}"
 export PGPASSWORD="${POSTGRES_PASSWORD:?Need POSTGRES_PASSWORD}"
-export PGDATABASE="${POSTGRES_DB:?Need POSTGRES_DB}"
+export PGDATABASE="${DBNAME:?Need DBNAME}"
 
 # #CHANGE species name to be used for database, should match kraken result for contamination checking
-export db_name="$POSTGRES_DB"
+export db_name="$DBNAME"
 export appname="$(python -c "from $SETTINGS import APPNAME; print(APPNAME)")"
 export dbuser="$POSTGRES_USER"
 

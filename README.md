@@ -40,7 +40,6 @@ POSTGRES_USER=mgt
 POSTGRES_PASSWORD=<enter-password-here>
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
-POSTGRES_DB=xcitri
 
 #Django Settings ### MUST add DJANGO_SUPERUSER, DJANGO_EMAIL and DJANGO_SECRET_KEY
 
@@ -141,7 +140,7 @@ Helper scripts are available to export (dump) and import databases from the dock
 ### Dump (export)
 
 ```bash
-# writes xcitri-<timestamp>.sql in the repo root
+# writes ~species~-<timestamp>.sql in the repo root
 
 ./dump_db.sh [optional-output-filename.sql]
 ```

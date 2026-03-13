@@ -23,7 +23,8 @@ def get_env(var_name):
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+APPNAME = get_env("APPNAME")
+DBNAME = get_env("DBNAME")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -40,7 +41,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '0.0.0.0', '[::1]', '*']
 
 INSTALLED_APPS = [
-    'Xcitri', # CHANGE add new databases to this list. 
+    APPNAME, # CHANGE add new databases to this list. 
     'django_tables2',
     'Home',
     'MGTdb_shared',
@@ -104,10 +105,10 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS=0o774
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 # 2018, Jan 9 - require a db router (if multiple databases)
-NCBI_RETRIEVAL_FREQUENCY = {'Xcitri': None} # CHANGE to frequency of retrieval
+NCBI_RETRIEVAL_FREQUENCY = {'`Species`': None} # CHANGE to frequency of retrieval
 
 DATABASE_ROUTERS = ['Mgt.router.GenericRouter']
-APPS_DATABASE_MAPPING = {'Xcitri':get_env("POSTGRES_DB") } #CHANGE change to appname in INSTALLED_APPS and database DATABASES in name normally upper and lowercase first letter i.e. Salmonella and salmonella
+APPS_DATABASE_MAPPING = {APPNAME:DBNAME} #CHANGE change to appname in INSTALLED_APPS and database DATABASES in name normally upper and lowercase first letter i.e. Salmonella and salmonella
 
 DATABASES = {
     'default': {
@@ -128,13 +129,13 @@ DATABASES = {
     # #     'NAME': 'blankdb',#CHANGE to new database name
     # # },
     ## Clawclip example 
-    get_env("POSTGRES_DB"): {
+    DBNAME: {
         "ENGINE": "django.db.backends.postgresql",
         "USER": get_env("POSTGRES_USER"), 
         "PASSWORD": get_env("POSTGRES_PASSWORD"), 
         "HOST": get_env("POSTGRES_HOST"), 
         "PORT": get_env("POSTGRES_PORT"), 
-        'NAME': get_env("POSTGRES_DB"), 
+        'NAME': DBNAME, 
     },
 }
 
@@ -165,7 +166,7 @@ INCLUDE_REGISTER_URL = True
 REGISTRATION_OPEN = True
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "xcitri.mgt")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
 EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False") == "True"
@@ -211,7 +212,7 @@ if DEBUG:
     mimetypes.add_type("application/javascript", ".js", True)
 
 #CHANGE BELOW TO list species specific cutoffs/values
-SPECIES_SEROVAR = {'Xcitri': {"species":'Xanthomonas citri',
+SPECIES_SEROVAR = {APPNAME: {"species":'Xanthomonas citri',
                                   "serovar":'',
                                   "min_largest_contig":60000,
                                   "max_contig_no":700,
@@ -249,4 +250,4 @@ DATE_FORMAT = 'Y-m-d'
 STATIC_URL = '/static/'
 STATIC_ROOT = 'Static/'
 
-RAWQUERIES_DISPLAY = {'Xcitri': '', } # CHANGE for extra queries in database but keep string empty if using default (i.e, 'Salmonella': '')
+RAWQUERIES_DISPLAY = {APPNAME: '', } # CHANGE for extra queries in database but keep string empty if using default (i.e, 'Salmonella': '')
